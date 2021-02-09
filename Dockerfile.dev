@@ -1,0 +1,28 @@
+# base image
+# base image
+FROM node:alpine
+
+# set work directory
+WORKDIR /app
+
+# copy package.json and install the dependencies
+COPY package.json .
+RUN npm install
+
+# copy the code
+COPY . .
+
+# Create a user group 'xyzgroup'
+RUN addgroup -S xyzgroup
+
+# Create a user 'appuser' under 'xyzgroup'
+RUN adduser -S -D -h /app appuser xyzgroup
+
+# Chown all the files to the app user.
+RUN chown -R appuser:xyzgroup /app
+
+# Switch to 'appuser'
+USER appuser
+
+#start the dev server
+CMD ["npm", "run", "start"]
