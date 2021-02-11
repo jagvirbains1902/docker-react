@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - dockerfile
+
+before_install:
+  - docker build -t jagvirbains1902/docker-react -f Dockerfile.dev .
+
+script:
+  - docker run jagvirbains1902/docker-react -e CI=true npm run test -- --coverage
